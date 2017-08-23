@@ -41,3 +41,6 @@ def submit(request, subblueit_name):
 
 def user(request, username):
     return render(request, 'RedditApp/user.html', {'user' : user})
+
+def apply_sorting_choice(choice, sub):
+    pass

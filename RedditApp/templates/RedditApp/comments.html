@@ -1,0 +1,27 @@
+<!DOCTYPE HTML>
+<html lang = "en">
+<head>
+    <title> {{post.title}} </title>
+</head>
+<body>
+    <h1>{{ post.title }}</h1>
+    <div class="post_text">
+        <p>{{post.text}}</p>
+        <p> Submitted by {{post.user}}</p>
+    </div>
+    
+    <hr>
+    
+    {% for comment in post.comment_set.all %}
+        <div class="comment">
+            <table>
+                <td> <button> Upvote </button></td>
+                <td> {{ comment.karma }} </td>
+                <td> {{ comment.text }} </td>
+                <td> Submitted by {{comment.user}}</td>
+            </table>
+        </div>
+    {% endfor %}
+    
+</body>
+</html>

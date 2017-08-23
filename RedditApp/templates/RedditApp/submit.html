@@ -1,0 +1,16 @@
+<!DOCTYPE HTML>
+<html lang = "en">
+<head>
+    <title> Submit a post</title>
+</head>
+<body>
+    <h1>Submit to {{ sub.name }}</h1>
+    {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+    <form action="" method="post">
+    {% csrf_token %}
+
+    {{ form.as_p }}
+    <input type="submit" value = "Submit">
+    </form>
+</body>
+</html>

@@ -39,8 +39,11 @@ def submit(request, subblueit_name):
         form = PostForm()
     return render(request, 'RedditApp/submit.html', {'form': form, 'sub':subblueit_name})
 
-def user(request, username):
+def user(request, user):
     return render(request, 'RedditApp/user.html', {'user' : user})
+
+def login(request):
+    return render(request, 'RedditApp/login.html')
 
 def apply_sorting_choice(choice, sub):
     pass

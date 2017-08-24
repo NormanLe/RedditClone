@@ -55,7 +55,7 @@ ROOT_URLCONF = 'RedditClone.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR, 'RedditApp/templates/RedditApp')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -104,6 +104,7 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+LOGIN_REDIRECT_URL = 'RedditApp:index'
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.11/topics/i18n/

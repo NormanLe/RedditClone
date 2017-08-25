@@ -25,10 +25,14 @@ urlpatterns = [
     url(r'^r/(?P<subblueit_name>\w+)/submit$', RedditApp_views.submit, name='new_post'),
 
     # Ex: /user/DjangoProgrammer
-    url(r'^user/(?P<username>\w+)$', RedditApp_views.user, name="user_detail"),
+    url(r'^user/(?P<username>\w+)$', RedditApp_views.user, name='user_detail'),
     
     # /login
-    url(r'^login/$', auth_views.LoginView.as_view(template_name="RedditApp/login.html"),name="login"),
+    url(r'^login/$', auth_views.LoginView.as_view(template_name="RedditApp/login.html"),name='login'),
     # /logout
     url(r'^logout/$', auth_views.LogoutView.as_view(template_name="RedditApp/index.html"), name='logout'),
+    
+    # /signup
+    url (r'^signup/$', RedditApp_views.signup, name='signup'),
+    
 ]

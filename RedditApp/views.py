@@ -3,7 +3,7 @@ from django.http import HttpResponseRedirect, HttpResponse
 from django.urls import reverse
 from django.utils import timezone
 from .models import Post, Subblueit
-from .forms import PostForm
+from .forms import PostForm, SignUpForm
 
 # Create your views here.
 def index(request):
@@ -44,6 +44,20 @@ def user(request, user):
 
 def login(request):
     return render(request, 'RedditApp/login.html')
+
+def signup(request):
+    if request.method == 'POST':
+        form = SignUpForm(request.POST)
+        if form.is_valid():
+            form.save()
+            username = request.cleaned_data['username']
+            password = request.cleaned_data.get['password1']
+            user = authenticate(username=username, password=password)
+            login(request, user)
+            return HttpResponseRedirect(reverse('RedditApp:index'))
+    else:
+        form = SignUpForm()
+    return render(request, 'RedditApp/signup.html', {'form': form})
 
 def apply_sorting_choice(choice, sub):
     pass

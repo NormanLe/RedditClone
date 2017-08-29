@@ -15,7 +15,7 @@ def index(request):
     return render(request, 'RedditApp/index.html', context)
 
 def subblueit(request, subblueit_name, sorting):
-    
+
     sub = get_object_or_404(Subblueit, name = subblueit_name)
 #    if sorting == hot: context = {}
 #    else: it's just normal viewing

@@ -1,11 +1,11 @@
 <!DOCTYPE HTML>
-<html lang = "en"> 
+<html lang = "en">
 <!-- Should show all the saved subs at the very top -->
 <!--
 <table>
     <tr>
         {for sub in user.saved_subs %}
-            <td> <a href="{{ sub }}"> sub.name </a> </td>       
+            <td> <a href="{{ sub }}"> sub.name </a> </td>
     </tr>
 </table>
 -->
@@ -13,8 +13,10 @@
 
 <h2> {{ sub.followers }} </h2>
 {% for post in sub.post_set.all %}
-    <div class="post"> {{post.title}} 
+    <div class="post">
         <a href="{% url 'RedditApp:post_detail' sub post.id post.title %}"> {{ post.title }} </a>
+        <br>
+        submitted by {{post.user}}
     </div>
 {% endfor %}
 

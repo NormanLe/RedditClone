@@ -9,19 +9,24 @@
         <p>{{post.text}}</p>
         <p> Submitted by {{post.user}}</p>
     </div>
-    
+
     <hr>
-    
+
     {% for comment in post.comment_set.all %}
         <div class="comment">
             <table>
-                <td> <button> Upvote </button></td>
                 <td> {{ comment.karma }} </td>
                 <td> {{ comment.text }} </td>
                 <td> Submitted by {{comment.user}}</td>
             </table>
         </div>
     {% endfor %}
-    
+    <form method="post">
+      {% csrf_token %}
+      {{ form.as_p }}
+      <br>
+      <button type="submit">Submit</button>
+    </form>
+
 </body>
 </html>

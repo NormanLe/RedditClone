@@ -1,12 +1,12 @@
 <!DOCTYPE HTML>
 {% load static %}
-<html lang = "en"> 
+<html lang = "en">
 <!-- Should show all the saved subs at the very top -->
 <!--
 <table>
     <tr>
         {for sub in user.saved_subs %}
-            <td> <a href="{{ sub }}"> sub.name </a> </td>       
+            <td> <a href="{{ sub }}"> sub.name </a> </td>
     </tr>
 </table>
 -->
@@ -15,7 +15,7 @@
     <link rel="stylesheet" type="text/css" href="{% static 'RedditApp/styles.css' %}"/>
     <script src="{% static 'RedditApp/scripts.js' %}"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-   
+
 
 </head>
 <body>
@@ -26,7 +26,10 @@
     {% if popular_posts %}
         {% for post in popular_posts %}
             <div class="post">
-            <a href="{% url 'RedditApp:post_detail' post.sub post.id post.title %}"> {{ post.title }}</a>
+            <a href="{% url 'RedditApp:post_detail' post.sub post.id post.title %}">
+              {{ post.title }} </a>
+              <br>
+              submitted by {{post.user}}
             </div>
             <br>
         {% endfor %}

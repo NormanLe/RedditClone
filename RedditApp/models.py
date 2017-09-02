@@ -30,7 +30,7 @@ class Comment(models.Model):
     pub_date = models.DateTimeField('date published')
     karma = models.IntegerField(default=0)
     user = models.ForeignKey('auth.User', null=True)
-
+    # parent = models.ForeignKey('self', null=True, related_name='replies')
     def __str__(self):
         return self.text
 

@@ -104,6 +104,7 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+LOGIN_URL = 'RedditApp:login'
 LOGIN_REDIRECT_URL = 'RedditApp:index'
 
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
@@ -126,4 +127,3 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
 
 STATIC_URL = '/static/'
-

@@ -7,11 +7,11 @@ urlpatterns = [
     url(r'^$', RedditApp_views.index, name='index'),
 
     # Ex: /hot
-    url(r'^(?P<sorting>hot|new|rising|top|controversial)$', RedditApp_views.index, name='index_sorted'),
+    url(r'^(?P<sorting>hot|new|top)$', RedditApp_views.index_ordered, name='index_ordered'),
 
     # Ex: /r/learnprogramming/new
-    url(r'^r/(?P<subblueit_name>\w+)/(?P<sorting>hot|new|rising|top|controversial)$',
-        RedditApp_views.subblueit, name='subblueit_sorted'),
+    url(r'^r/(?P<subblueit_name>\w+)/(?P<sorting>hot|new|top)$',
+        RedditApp_views.subblueit_ordered, name='subblueit_ordered'),
 
     # Ex: /r/learnprogramming
     url(r'^r/(?P<subblueit_name>\w+)$',

@@ -1,6 +1,6 @@
 <!DOCTYPE HTML>
 {% load static %}
-<html lang = "en"> 
+<html lang = "en">
 <head>
     <link rel="stylesheet" type="text/css" href="{% static 'RedditApp/styles.css' %}"/>
 </head>
@@ -10,38 +10,34 @@
         <ul class="banner" id="sorting_click">
             {% if sub != "Front" %}
                 <li><a href="{% url 'RedditApp:index' %}">Home</a></li>
-                <li><a href="{% url 'RedditApp:subblueit_sorted' subblueit_name=sub sorting='new' %}">New</a></li>
-                <li><a href="{% url 'RedditApp:subblueit_sorted' subblueit_name=sub sorting='top' %}">Top</a></li>
-                <li><a href="{% url 'RedditApp:subblueit_sorted' subblueit_name=sub sorting='hot' %}">Hot</a></li>
-                <li><a href="{% url 'RedditApp:subblueit_sorted' subblueit_name=sub sorting='controversial' %}">Controversial</a></li>
-                <li><a href="{% url 'RedditApp:subblueit_sorted' subblueit_name=sub sorting='rising' %}">Rising</a></li>
+                <li><a href="{% url 'RedditApp:subblueit_ordered' subblueit_name=sub sorting='new' %}">New</a></li>
+                <li><a href="{% url 'RedditApp:subblueit_ordered' subblueit_name=sub sorting='top' %}">Top</a></li>
+                <li><a href="{% url 'RedditApp:subblueit_ordered' subblueit_name=sub sorting='hot' %}">Hot</a></li>
                 {% if user.is_authenticated %}
                     <li class="banner_right"><a href="{% url 'RedditApp:user_detail' user%}">{{ user.username }} </a> </li>
                     <li class="banner_right"><a href="{% url 'RedditApp:logout' user %}">Logout</a></li>
                 {% else %}
-                    <li class="banner_right"><a 
+                    <li class="banner_right"><a
                 href="{% url 'RedditApp:login' %}">Log In or Sign Up</a></li>
                 {% endif %}
-                
+
                 <li class="dropdown"> <a href="javascript:void(0); " onclick="dropdown_menu()">&#9776;</a></li>
             {% else %}
                 <li><a href="{% url 'RedditApp:index' %}">Home</a></li>
-                <li><a href="{% url 'RedditApp:index_sorted' sorting='new' %}">New</a></li>
-                <li><a href="{% url 'RedditApp:index_sorted' sorting='top' %}">Top</a></li>
-                <li><a href="{% url 'RedditApp:index_sorted' sorting='hot' %}">Hot</a></li>
-                <li><a href="{% url 'RedditApp:index_sorted' sorting='controversial' %}">Controversial</a></li>
-                <li><a href="{% url 'RedditApp:index_sorted' sorting='rising' %}">Rising</a></li>
-            
+                <li><a href="{% url 'RedditApp:index_ordered' sorting='new' %}">New</a></li>
+                <li><a href="{% url 'RedditApp:index_ordered' sorting='top' %}">Top</a></li>
+                <li><a href="{% url 'RedditApp:index_ordered' sorting='hot' %}">Hot</a></li>
+                
                 {% if user.is_authenticated %}
                     <li class="banner_right"><a href="{% url 'RedditApp:user_detail' user%}">{{ user.username }} </a> </li>
                     <li class="banner_right"><a href="{% url 'RedditApp:logout' %}">Logout</a></li>
                 {% else %}
-                    <li class="banner_right"><a 
+                    <li class="banner_right"><a
                 href="{% url 'RedditApp:login' %}">Log In or Sign Up</a></li>
                 {% endif %}
                 <li class="dropdown"> <a href="javascript:void(0); " onclick="dropdown_menu()">&#9776;</a></li>
             {% endif %}
-            
+
         </ul>
     </nav>
 </body>

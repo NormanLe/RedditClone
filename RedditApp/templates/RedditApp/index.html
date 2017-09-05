@@ -23,8 +23,8 @@
 
     {% include 'RedditApp/banner.html' with sub="Front" %}
 
-    {% if popular_posts %}
-        {% for post in popular_posts %}
+    {% if posts %}
+        {% for post in posts %}
             <div class="post">
             <a href="{% url 'RedditApp:post_detail' post.sub post.id post.title %}">
               {{ post.title }} </a>

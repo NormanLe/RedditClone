@@ -5,25 +5,51 @@ from django.utils import timezone
 from .models import Post, Subblueit, Comment
 from .forms import PostForm, SignUpForm, CommentForm
 from django.contrib.auth.decorators import login_required
+from datetime import datetime, timedelta
 
 
 # Create your views here.
 def index(request):
-    popular_posts = Post.objects.order_by('-karma', '-pub_date')
-    context = {
-        'popular_posts' : popular_posts
-    }
+    posts = Post.objects.filter(karma__gte=0).order_by('-karma', '-pub_date')
+    context = {'posts' : posts}
     # method to call, depending on sorting, that returns the context, given a sub and a desired sort
     return render(request, 'RedditApp/index.html', context)
 
+def index_ordered(request, sorting):
+    if sorting == 'hot':
+        posts = Post.objects.filter(karma__gte=0).order_by('-karma', '-pub_date')
+    elif sorting == 'new':
+        posts = Post.objects.order_by('-pub_date')
+    elif sorting == 'top':
+        posts = Post.objects.filter(karma__gte=0).order_by('-karma')
+    else:
+        # redirect to error page
+        pass
+    context = {'posts' : posts}
+    return render(request, 'RedditApp/index.html', context)
+
 def subblueit(request, subblueit_name):
-
     sub = get_object_or_404(Subblueit, name = subblueit_name)
-#   include sorting
-#   if sorting == hot: context = {}
-#    else: it's just normal viewing
-    return render(request, 'RedditApp/sub.html', {'sub' : sub})
+    posts = sub.post_set.filter(
+        pub_date__gte=datetime.now()-timedelta(days=7)).order_by('-karma')
+    context = {'sub' : sub, 'posts' : posts}
+    return render(request, 'RedditApp/sub.html', context)
 
+def subblueit_ordered(request, subblueit_name, sorting):
+    sub = get_object_or_404(Subblueit, name = subblueit_name)
+    context = {'sub' : sub}
+    sorting = sorting.lower()
+    if sorting == 'hot':
+        posts = sub.post_set.filter(karma__gte=0).order_by('-karma', '-pub_date')
+    elif sorting == 'new':
+        posts = sub.post_set.order_by('-pub_date')
+    elif sorting == 'top':
+        posts = sub.post_set.filter(karma__gte=0).order_by('-karma')
+    else:
+        # redirect to error page
+        pass
+    context['posts'] = posts
+    return render(request, 'RedditApp/sub.html', context)
 def comments(request, subblueit_name, post_id, post_name):
 
     post = get_object_or_404(Post, pk = post_id)
@@ -84,6 +110,3 @@ def signup(request):
     else:
         form = SignUpForm()
     return render(request, 'RedditApp/signup.html', {'form': form})
-
-def apply_sorting_choice(choice, sub):
-    pass

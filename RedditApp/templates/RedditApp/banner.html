@@ -27,7 +27,7 @@
                 <li><a href="{% url 'RedditApp:index_ordered' sorting='new' %}">New</a></li>
                 <li><a href="{% url 'RedditApp:index_ordered' sorting='top' %}">Top</a></li>
                 <li><a href="{% url 'RedditApp:index_ordered' sorting='hot' %}">Hot</a></li>
-                
+
                 {% if user.is_authenticated %}
                     <li class="banner_right"><a href="{% url 'RedditApp:user_detail' user%}">{{ user.username }} </a> </li>
                     <li class="banner_right"><a href="{% url 'RedditApp:logout' %}">Logout</a></li>

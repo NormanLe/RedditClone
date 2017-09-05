@@ -106,6 +106,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LOGIN_URL = 'RedditApp:login'
 LOGIN_REDIRECT_URL = 'RedditApp:index'
+LOGOUT_REDIRECT_URL = 'RedditApp:index'
 
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 

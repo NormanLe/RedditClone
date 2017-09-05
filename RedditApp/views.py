@@ -4,6 +4,8 @@ from django.urls import reverse
 from django.utils import timezone
 from .models import Post, Subblueit, Comment
 from .forms import PostForm, SignUpForm, CommentForm
+from django.contrib.auth import authenticate
+from django.contrib.auth import login as login_user
 from django.contrib.auth.decorators import login_required
 from datetime import datetime, timedelta
 
@@ -101,11 +103,11 @@ def signup(request):
     if request.method == 'POST':
         form = SignUpForm(request.POST)
         if form.is_valid():
+            username = form.cleaned_data.get('username')
+            password = form.cleaned_data.get('password1')
             form.save()
-            username = request.cleaned_data['username']
-            password = request.cleaned_data.get['password1']
-            user = authenticate(username=username, password=password)
-            login(request, user)
+            user = authenticate(request, username=username, password=password)
+            login_user(request, user)
             return HttpResponseRedirect(reverse('RedditApp:index'))
     else:
         form = SignUpForm()

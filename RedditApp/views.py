@@ -2,12 +2,11 @@ from django.shortcuts import get_object_or_404, render
 from django.http import HttpResponseRedirect, HttpResponse
 from django.urls import reverse
 from django.utils import timezone
-from .models import Post, Subblueit, Comment
+from .models import Post, Subblueit, Comment, UserProfile
 from .forms import PostForm, SignUpForm, CommentForm
 from django.contrib.auth import authenticate
 from django.contrib.auth import login as login_user
 from django.contrib.auth.decorators import login_required
-from datetime import datetime, timedelta
 
 
 # Create your views here.
@@ -32,13 +31,21 @@ def index_ordered(request, sorting):
 
 def subblueit(request, subblueit_name):
     sub = get_object_or_404(Subblueit, name = subblueit_name)
+    if (request.POST.get('subscribeButton')):
+        profile = get_object_or_404(UserProfile, user=request.user)
+        profile.subs.add(sub)
+        print(profile.subs.all())
     posts = sub.post_set.filter(
-        pub_date__gte=datetime.now()-timedelta(days=7)).order_by('-karma')
+        pub_date__gte=timezone.now()-timezone.timedelta(days=7)).order_by('-karma')
     context = {'sub' : sub, 'posts' : posts}
     return render(request, 'RedditApp/sub.html', context)
 
 def subblueit_ordered(request, subblueit_name, sorting):
     sub = get_object_or_404(Subblueit, name = subblueit_name)
+    if (request.POST.get('subscribeButton')):
+        profile = get_object_or_404(UserProfile, user=request.user)
+        profile.subs.add(sub)
+        print(profile.subs.all())
     context = {'sub' : sub}
     sorting = sorting.lower()
     if sorting == 'hot':
@@ -108,6 +115,8 @@ def signup(request):
             form.save()
             user = authenticate(request, username=username, password=password)
             login_user(request, user)
+            profile = UserProfile(user = user)
+            profile.save()
             return HttpResponseRedirect(reverse('RedditApp:index'))
     else:
         form = SignUpForm()

@@ -21,9 +21,6 @@ class Post(models.Model):
     def __str__(self):
         return self.title
 
-    def was_posted_recently(self):
-        return self.pub_date >= timezone.now() - datetime.timedelta(days=1)
-
 class Comment(models.Model):
     post = models.ForeignKey(Post, on_delete=models.CASCADE)
     text = models.CharField(max_length=200)
@@ -34,5 +31,6 @@ class Comment(models.Model):
     def __str__(self):
         return self.text
 
-    def was_published_recently(self):
-        return self.pub_date >= timezone.now() - datetime.timedelta(days=1)
+class UserProfile(models.Model):
+    user = models.OneToOneField(User)
+    subs = models.ManyToManyField(Subblueit)

@@ -9,6 +9,7 @@
     </tr>
 </table>
 -->
+{% include 'RedditApp/banner.html' with sub=sub.name %}
 <h1>{{ sub.name }}</h1>
 
 <h2> {{ sub.followers }} </h2>
@@ -20,7 +21,13 @@
         submitted by {{post.user}}
     </div>
 {% endfor %}
-
-<a href="{% url 'RedditApp:new_post' sub.name %}"> Submit </a>
+<br>
+<a href="{% url 'RedditApp:new_post' sub.name %}"> New Submission </a>
+<br>
+<br>
+<form action="" method="post">
+  {% csrf_token %}
+  <input type="submit" value="Subscribe" name="subscribeButton">
+</form>
 
 </html>

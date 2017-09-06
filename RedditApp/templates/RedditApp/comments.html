@@ -4,6 +4,7 @@
     <title> {{post.title}} </title>
 </head>
 <body>
+  {% include 'RedditApp/banner.html' with sub="sub" %}
     <h1>{{ post.title }}</h1>
     <div class="post_text">
         <p>{{post.text}}</p>
@@ -23,9 +24,13 @@
     {% endfor %}
     <form method="post">
       {% csrf_token %}
-      {{ form.as_p }}
-      <br>
-      <button type="submit">Submit</button>
+      {% if user.is_authenticated %}
+        {{ form.as_p }}
+        <br>
+        <button type="submit">Submit</button>
+      {% endif %}
+
+
     </form>
 
 </body>

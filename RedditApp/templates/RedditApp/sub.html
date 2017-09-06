@@ -1,15 +1,7 @@
 <!DOCTYPE HTML>
 <html lang = "en">
-<!-- Should show all the saved subs at the very top -->
-<!--
-<table>
-    <tr>
-        {for sub in user.saved_subs %}
-            <td> <a href="{{ sub }}"> sub.name </a> </td>
-    </tr>
-</table>
--->
-{% include 'RedditApp/banner.html' with sub=sub.name %}
+
+{% include 'RedditApp/banner.html' with sub=sub.name subs=subs%}
 <h1>{{ sub.name }}</h1>
 
 <h2> {{ sub.followers }} </h2>

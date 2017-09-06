@@ -8,12 +8,11 @@ from django.contrib.auth import authenticate
 from django.contrib.auth import login as login_user
 from django.contrib.auth.decorators import login_required
 
-
-# Create your views here.
 def index(request):
     posts = Post.objects.filter(karma__gte=0).order_by('-karma', '-pub_date')
     context = {'posts' : posts}
-    # method to call, depending on sorting, that returns the context, given a sub and a desired sort
+    u = UserProfile.objects.get(user__exact=request.user)
+    context['subs'] = u.subs.all()
     return render(request, 'RedditApp/index.html', context)
 
 def index_ordered(request, sorting):
@@ -23,10 +22,9 @@ def index_ordered(request, sorting):
         posts = Post.objects.order_by('-pub_date')
     elif sorting == 'top':
         posts = Post.objects.filter(karma__gte=0).order_by('-karma')
-    else:
-        # redirect to error page
-        pass
     context = {'posts' : posts}
+    u = UserProfile.objects.get(user__exact=request.user)
+    context['subs'] = u.subs.all()
     return render(request, 'RedditApp/index.html', context)
 
 def subblueit(request, subblueit_name):
@@ -34,10 +32,11 @@ def subblueit(request, subblueit_name):
     if (request.POST.get('subscribeButton')):
         profile = get_object_or_404(UserProfile, user=request.user)
         profile.subs.add(sub)
-        print(profile.subs.all())
     posts = sub.post_set.filter(
         pub_date__gte=timezone.now()-timezone.timedelta(days=7)).order_by('-karma')
     context = {'sub' : sub, 'posts' : posts}
+    u = UserProfile.objects.get(user__exact=request.user)
+    context['subs'] = u.subs.all()
     return render(request, 'RedditApp/sub.html', context)
 
 def subblueit_ordered(request, subblueit_name, sorting):
@@ -45,7 +44,6 @@ def subblueit_ordered(request, subblueit_name, sorting):
     if (request.POST.get('subscribeButton')):
         profile = get_object_or_404(UserProfile, user=request.user)
         profile.subs.add(sub)
-        print(profile.subs.all())
     context = {'sub' : sub}
     sorting = sorting.lower()
     if sorting == 'hot':
@@ -54,18 +52,15 @@ def subblueit_ordered(request, subblueit_name, sorting):
         posts = sub.post_set.order_by('-pub_date')
     elif sorting == 'top':
         posts = sub.post_set.filter(karma__gte=0).order_by('-karma')
-    else:
-        # redirect to error page
-        pass
     context['posts'] = posts
+    u = UserProfile.objects.get(user__exact=request.user)
+    context['subs'] = u.subs.all()
     return render(request, 'RedditApp/sub.html', context)
 def comments(request, subblueit_name, post_id, post_name):
-
     post = get_object_or_404(Post, pk = post_id)
     if request.method == 'POST':
         form = CommentForm(request.POST)
         if form.is_valid():
-            print ('valid')
             comment = form.save(commit=False)
             comment.post = post
             comment.text = form.cleaned_data['comment']

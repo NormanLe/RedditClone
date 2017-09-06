@@ -4,7 +4,7 @@
     <title> {{post.title}} </title>
 </head>
 <body>
-  {% include 'RedditApp/banner.html' with sub="sub" %}
+  {% include 'RedditApp/banner.html' with sub="sub" subs=subs%}
     <h1>{{ post.title }}</h1>
     <div class="post_text">
         <p>{{post.text}}</p>

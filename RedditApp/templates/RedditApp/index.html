@@ -21,7 +21,7 @@
 <body>
 <!-- If user logged in, show him his subscribed subs else show default subs -->
 
-    {% include 'RedditApp/banner.html' with sub="Front" %}
+    {% include 'RedditApp/banner.html' with sub="Front" subs=subs%}
 
     {% if posts %}
         {% for post in posts %}

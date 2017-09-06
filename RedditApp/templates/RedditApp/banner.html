@@ -9,7 +9,9 @@
   <nav>
 <!-- TODO: Simplify this large chunk of code in future, after you learn more       -->
     <ul class="banner" id="sorting_click">
-
+      {% for subblueits in subs %}
+        <li><a href="{% url 'RedditApp:subblueit_detail' subblueit_name=subblueits.name %}">{{subblueits.name}}</a><li>
+      {% endfor %}
       <br>
       {% if sub != "Front" %}
         <li><a href="{% url 'RedditApp:index' %}">Home</a></li>

@@ -16,6 +16,7 @@ class Post(models.Model):
     pub_date = models.DateTimeField(timezone.now())
     karma = models.IntegerField(default=0)
     text = models.CharField(max_length=400, blank=True)
+    # urlfield for links?
     user = models.ForeignKey('auth.User', null=True)
 
     def __str__(self):

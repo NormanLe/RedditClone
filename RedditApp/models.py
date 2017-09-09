@@ -2,6 +2,7 @@ from django.db import models
 from django.utils import timezone
 from django.contrib.auth.models import User
 
+
 # Use makemigrations and migrate to edit the models and databases for this dir
 class Subblueit(models.Model):
     name = models.CharField(max_length=200, unique=True, null=True)
@@ -9,6 +10,7 @@ class Subblueit(models.Model):
     # creator = models.ForeignKey('auth.User', related_name='subs', on_delete=models.CASCADE, null=True)
     def __str__(self):
         return self.name
+
 
 class Post(models.Model):
     sub = models.ForeignKey(Subblueit, on_delete=models.CASCADE)
@@ -22,6 +24,7 @@ class Post(models.Model):
     def __str__(self):
         return self.title
 
+
 class Comment(models.Model):
     post = models.ForeignKey(Post, on_delete=models.CASCADE)
     text = models.CharField(max_length=200)
@@ -31,6 +34,7 @@ class Comment(models.Model):
     # parent = models.ForeignKey('self', null=True, related_name='replies')
     def __str__(self):
         return self.text
+
 
 class UserProfile(models.Model):
     user = models.OneToOneField(User)

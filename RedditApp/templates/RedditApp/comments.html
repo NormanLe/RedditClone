@@ -8,7 +8,7 @@
     <h1>{{ post.title }}</h1>
     <div class="post_text">
         <p>{{post.text}}</p>
-        <p> Submitted by {{post.user}}</p>
+        <p> Submitted by {{post.author}}</p>
     </div>
 
     <hr>
@@ -18,7 +18,7 @@
             <table>
                 <td> {{ comment.karma }} </td>
                 <td> {{ comment.text }} </td>
-                <td> Submitted by {{comment.user}}</td>
+                <td> Submitted by {{comment.author}}</td>
             </table>
         </div>
     {% endfor %}

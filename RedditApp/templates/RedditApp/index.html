@@ -29,7 +29,7 @@
             <a href="{% url 'RedditApp:post_detail' post.sub post.id post.title %}">
               {{ post.title }} </a>
               <br>
-              submitted by {{post.user}}
+              submitted by {{post.author}}
             </div>
             <br>
         {% endfor %}

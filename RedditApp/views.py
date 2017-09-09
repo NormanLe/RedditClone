@@ -5,8 +5,57 @@ from django.utils import timezone
 from .models import Post, Subblueit, Comment, UserProfile
 from .forms import PostForm, SignUpForm, CommentForm
 from django.contrib.auth import authenticate
+from django.contrib.auth.models import User
 from django.contrib.auth import login as login_user
 from django.contrib.auth.decorators import login_required
+from rest_framework import viewsets
+from .serializers import SubblueitSerializer, PostSerializer, CommentSerializer, UserSerializer
+from rest_framework.decorators import api_view
+from rest_framework.reverse import reverse as rest_reverse
+from rest_framework.response import Response
+from rest_framework import generics
+from rest_framework import permissions
+from rest_framework import renderers
+
+class SubblueitViewSet(viewsets.ModelViewSet):
+    queryset = Subblueit.objects.all()
+    serializer_class = SubblueitSerializer
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
+
+
+class PostViewSet(viewsets.ModelViewSet):
+    queryset = Post.objects.all()
+    serializer_class = PostSerializer
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
+
+
+class CommentViewSet(viewsets.ModelViewSet):
+    queryset = Comment.objects.all()
+    serializer_class = CommentSerializer
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
+class UserViewSet(viewsets.ReadOnlyModelViewSet):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
+
+# class UserList(generics.ListAPIView):
+#     queryset = User.objects.all()
+#     serializer_class = UserSerializer
+#
+#
+# class UserDetail(generics.RetrieveAPIView):
+#     queryset = User.objects.all()
+#     serializer_class = UserSerializer
+
+
+@api_view(['GET'])
+def api_root(request, format=None):
+    return Response({
+        'users': rest_reverse('RedditApp:user-list', request=request, format=format),
+        'subs': rest_reverse('RedditApp:subblueit-list', request=request, format=format),
+        'posts': rest_reverse('RedditApp:post-list', request=request, format=format),
+        'comments': rest_reverse('RedditApp:comment-list', request=request, format=format)
+    })
 
 def index(request):
     posts = Post.objects.filter(karma__gte=0).order_by('-karma', '-pub_date')
@@ -66,7 +115,7 @@ def comments(request, subblueit_name, post_id, post_name):
             comment.text = form.cleaned_data['comment']
             comment.pub_date = timezone.now()
             comment.karma = 0
-            comment.user = request.user
+            comment.author = request.user
             comment.save()
             return HttpResponseRedirect(
                 reverse('RedditApp:post_detail',
@@ -84,7 +133,7 @@ def submit(request, subblueit_name):
         form = PostForm(request.POST)
         if form.is_valid():
             post = form.save(commit=False)
-            post.user = request.user
+            post.author = request.user
             post.karma = 0
             post.pub_date = timezone.now()
             post.save()
